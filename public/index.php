@@ -2,8 +2,6 @@
 
 require '../vendor/autoload.php';
 
-if($_SERVER['REQUEST_URI'] == '/home') {
-  require '../app/controllers/homepage.php';
-}
-
-exit;
+$templates = new League\Plates\Engine('../app/views');
+d($templates);die;
+echo $templates->render('homepage', ['name' => 'Jonathan']);
