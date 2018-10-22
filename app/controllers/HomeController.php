@@ -1,16 +1,38 @@
 <?php
 namespace App\controllers;
+
 use App\QueryBuilder;
+use League\Plates\Engine;
 
 class HomeController {
   
-  public function index($vars)
+  private $templates;
+  
+  public function __construct()
   {
-    echo $vars['id']; exit;
+    $this->templates = new Engine('../app/views');
+  }
+  
+  public function index()
+  {
     $db = new QueryBuilder();
+    $posts = $db->getAll('posts');
     
-    $db->update([
-      'title' => 'new post from QueryBuilder package2'
-    ], 2, 'posts');
+    echo $this->templates->render('homepage', ['posts' => $posts]);
+  }
+  
+  public function about()
+  {
+    echo $this->templates->render('about', ['name' => 'Kirill']);
+  }
+  
+  public function post($vars)
+  {
+    $db = new QueryBuilder();
+    $post = $db->getOne($vars['id'], 'posts');
+    
+    echo $this->templates->render('post', [
+      'post' => $post
+    ]);
   }
 }
