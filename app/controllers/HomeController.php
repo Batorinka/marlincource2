@@ -3,8 +3,8 @@ namespace App\controllers;
 
 use App\QueryBuilder;
 use League\Plates\Engine;
-use PDO;
 use Delight\Auth\Auth;
+use PDO;
 
 class HomeController {
   
@@ -21,7 +21,6 @@ class HomeController {
   
   public function index()
   {
-    d($this->templates);die;
     $posts = $this->qb->getAll('posts');
     
     echo $this->templates->render('homepage', ['posts' => $posts]);

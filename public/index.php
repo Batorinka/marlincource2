@@ -5,12 +5,11 @@ if( !session_id() ) @session_start();
 require '../vendor/autoload.php';
 use DI\ContainerBuilder;
 use Delight\Auth\Auth;
+use League\Plates\Engine;
+use Aura\SqlQuery\QueryFactory;
 
 $containerBuilder = new ContainerBuilder;
 $containerBuilder->addDefinitions([
-  Engine::class => function() {
-    return new Engine('../app/views');
-  },
   PDO::class => function() {
     $driver = 'mysql';
     $host = 'localhost';
@@ -21,8 +20,14 @@ $containerBuilder->addDefinitions([
     
     return new PDO("$driver:host=$host;dbname=$database_name;charset=$charset;", $username, $password);
   },
+  Engine::class => function() {
+    return new Engine("../app/views");
+  },
   Auth::class => function($container) {
     return new Auth($container->get('PDO'));
+  },
+  QueryFactory::class => function() {
+    return new QueryFactory('mysql');
   }
 ]);
 $container = $containerBuilder->build();

@@ -9,10 +9,10 @@ class QueryBuilder {
   private $pdo;
   private $queryFactory;
   
-  public function __construct()
+  public function __construct(QueryFactory $queryFactory, PDO $pdo)
   {
-    $this->pdo = new PDO("mysql:host=localhost;dbname=app3;charset=utf8;", "root", "");
-    $this->queryFactory = new QueryFactory('mysql');
+    $this->pdo = $pdo;
+    $this->queryFactory = $queryFactory;
   }
   
   public function getAll($table) 
