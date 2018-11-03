@@ -41,6 +41,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/verification', ['App\controllers\HomeController', 'email_verification']);
     // {id} must be a number (\d+)
     $r->addRoute('GET', '/post/{id:\d+}', ['App\controllers\HomeController', 'post']);
+    $r->addRoute('GET', '/addpostform', ['App\controllers\HomeController', 'addPostForm']);
+    $r->addRoute('POST', '/addpost', ['App\controllers\HomeController', 'addPost']);
+    $r->addRoute('GET', '/deletepost/{id:\d+}', ['App\controllers\HomeController', 'deletePost']);
 });
 
 // Fetch method and URI from somewhere
@@ -64,13 +67,10 @@ switch ($routeInfo[0]) {
         $allowedMethods = $routeInfo[1];
         // ... 405 Method Not Allowed
         echo "метод не разрешен";
-        d($httpMethod);die;
+   
         break;
     case FastRoute\Dispatcher::FOUND:
-        $handler = $routeInfo[1];
-        $vars = $routeInfo[2];
-        $cont = $container->call($routeInfo[1], $routeInfo[2]);
-    
+        $container->call($routeInfo[1], [$routeInfo[2]]);
         // ... call $handler with $vars
         break;
 }

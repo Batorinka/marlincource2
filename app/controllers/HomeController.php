@@ -40,6 +40,25 @@ class HomeController {
     ]);
   }
   
+  public function addPostForm()
+  {
+    echo $this->templates->render('addPost', ['name' => 'Kirill']);
+  }
+  
+  public function addPost()
+  {
+    $this->qb->insert(['title' => $_POST['title']], 'posts');
+    flash()->message('Post was add');
+    $this->index();
+  }
+  
+  public function deletePost($vars)
+  {
+    $this->qb->delete($vars['id'], 'posts');
+    flash()->message("Post #{$vars['id']} was delete");
+    $this->index();
+  }
+  
   public function auth()
   {
       echo $this->templates->render('auth', ['name' => 'Kirill']);

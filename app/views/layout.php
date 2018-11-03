@@ -85,11 +85,19 @@
   <ul>
     <li><a href="/home">Home</a></li>
     <li><a href="/about">About</a></li>
+    <li><a href="/addpostform">Add Post</a></li>
     <li><a href="/auth">Registration</a></li>
   </ul>
   <?= flash()->display(); ?>
 </nav>
-<?=$this->section('content')?>
+  
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <?=$this->section('content')?>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
