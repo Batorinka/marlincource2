@@ -14,9 +14,10 @@ class HomeController {
   
   public function __construct(QueryBuilder $qb, Engine $engine, Auth $auth)
   {
-    $this->qb = $qb;
     $this->templates = $engine; 
     $this->auth = $auth;
+    $this->qb = $qb;
+    $_SESSION['auth_logged_in'] = $this->auth->isLoggedIn();
   }
   
   public function index()
@@ -59,29 +60,48 @@ class HomeController {
     $this->index();
   }
   
+  public function updateForm($vars)
+  {
+    $post = $this->qb->getOne($vars['id'], 'posts');
+    
+    echo $this->templates->render('updatePost', [
+      'post' => $post
+    ]);
+  }
+  
+  public function updatepost($vars)
+  {
+    $this->qb->update(['title' => $_POST['title']], $vars['id'], 'posts');
+    flash()->message('Post was update');
+    $this->index();
+  }
+  
+  public function loginForm()
+  {
+    echo $this->templates->render('auth', ['name' => 'Kirill']);
+  }
+  
   public function auth()
   {
-      echo $this->templates->render('auth', ['name' => 'Kirill']);
-//     try {
-//     $userId = $this->auth->register('batorinka@list1.ru', '123', 'Kirill', function ($selector, $token) {
-//         echo 'Send ' . $selector . ' and ' . $token . ' to the user (e.g. via email)';
-//     });
+    try {
+    $userId = $this->auth->register('batorinka@list1.ru', '123', 'Kirill', function ($selector, $token) {
+        echo 'Send ' . $selector . ' and ' . $token . ' to the user (e.g. via email)';
+    });
 
-//     echo 'We have signed up a new user with the ID ' . $userId;
-//     }
-//     catch (\Delight\Auth\InvalidEmailException $e) {
-//         die('Invalid email address');
-//     }
-//     catch (\Delight\Auth\InvalidPasswordException $e) {
-//         die('Invalid password');
-//     }
-//     catch (\Delight\Auth\UserAlreadyExistsException $e) {
-//         die('User already exists');
-//     }
-//     catch (\Delight\Auth\TooManyRequestsException $e) {
-//         die('Too many requests');
-//     }
-
+    echo 'We have signed up a new user with the ID ' . $userId;
+    }
+    catch (\Delight\Auth\InvalidEmailException $e) {
+        die('Invalid email address');
+    }
+    catch (\Delight\Auth\InvalidPasswordException $e) {
+        die('Invalid password');
+    }
+    catch (\Delight\Auth\UserAlreadyExistsException $e) {
+        die('User already exists');
+    }
+    catch (\Delight\Auth\TooManyRequestsException $e) {
+        die('Too many requests');
+    }
   }
   
   public function email_verification()
@@ -133,5 +153,7 @@ class HomeController {
   public function logout()
   {
     $this->auth->logOut();
+    flash()->message('User is logged out');
+    $this->index();
   }
 }

@@ -35,8 +35,8 @@ $container = $containerBuilder->build();
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/home', ['App\controllers\HomeController', 'index']);
     $r->addRoute('GET', '/about', ['App\controllers\HomeController', 'about']);
-    $r->addRoute('GET', '/auth', ['App\controllers\HomeController', 'auth']);
     $r->addRoute('POST', '/login', ['App\controllers\HomeController', 'login']);
+    $r->addRoute('GET', '/loginform', ['App\controllers\HomeController', 'loginForm']);
     $r->addRoute('GET', '/logout', ['App\controllers\HomeController', 'logout']);
     $r->addRoute('GET', '/verification', ['App\controllers\HomeController', 'email_verification']);
     // {id} must be a number (\d+)
@@ -44,6 +44,8 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/addpostform', ['App\controllers\HomeController', 'addPostForm']);
     $r->addRoute('POST', '/addpost', ['App\controllers\HomeController', 'addPost']);
     $r->addRoute('GET', '/deletepost/{id:\d+}', ['App\controllers\HomeController', 'deletePost']);
+    $r->addRoute('GET', '/updateform/{id:\d+}', ['App\controllers\HomeController', 'updateForm']);
+    $r->addRoute('POST', '/updatepost/{id:\d+}', ['App\controllers\HomeController', 'updatePost']);
 });
 
 // Fetch method and URI from somewhere

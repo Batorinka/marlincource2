@@ -22,6 +22,7 @@
       <td>
         <a href="/deletepost/<?=$post['id'];?>" class="btn btn-danger"
                                 onclick="return confirm('are you sure?')">Delete</a>
+        <a href="/updateform/<?=$post['id'];?>" class="btn btn-success">Update</a>
       </td>
     </tr>
     <?php endforeach; ?>

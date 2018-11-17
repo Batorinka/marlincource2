@@ -86,7 +86,11 @@
     <li><a href="/home">Home</a></li>
     <li><a href="/about">About</a></li>
     <li><a href="/addpostform">Add Post</a></li>
-    <li><a href="/auth">Registration</a></li>
+    <?php if(!$_SESSION['auth_logged_in']): ?>
+      <li><a href="/loginform">Login</a></li>
+    <?php else: ?>
+      <li><a href="/logout">Logout</a></li>
+    <?php endif; ?>
   </ul>
   <?= flash()->display(); ?>
 </nav>
